@@ -1,6 +1,14 @@
 import React, { useState } from 'react'
+import { Container} from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
+import AddModal from './AddModal';
 
-const Header = ({ setIsAdding }) => {
+const Header = ({handleSubmit}) => {
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+    const handleOpen = () => setShow(true);
+
   const current = new Date();
   const time = current.toLocaleString();
   const [cTime, setCTime] = useState(time)
@@ -8,15 +16,22 @@ const Header = ({ setIsAdding }) => {
     setCTime(new Date().toLocaleString())
   }, 1000)
   return (
-    <div className='text-center margin-top'>
-      <h1>🏫Student Management System</h1>
-      <hr className='padding-top' />
-      <div style={{ display: "flex", justifyContent: "center", flexDirection: "column", boxShadow: "5px 10px 18px #888888", width: "50%", margin: "auto"  }}>
-
-        <div style={{ marginTop: "10px", fontSize: "20px", fontFamily: "cursive" }}><div >Date&Time</div>{cTime}</div>
-        <button onClick={() => setIsAdding(true)} type='button' style={{ margin: "auto", marginTop: "20px", marginBottom: "20px" }}>Mark attendance</button>
-      </div>
-    </div>
+    <Container>
+    <Card style={{ display: "flex", justifyContent: "center", flexDirection: "column", boxShadow: "5px 10px 18px #888888", width: "50%", margin: "auto", marginTop:"50px" }}>
+      <Card.Body style={{textAlign:"center"}}> 
+        <Card.Title>
+          {cTime}
+        </Card.Title>
+        <hr className='padding-top' />
+       
+        <Button onClick={handleOpen}>Add Student</Button>
+      </Card.Body>
+    </Card>
+    
+        {show && (
+          <AddModal handleOpen={handleOpen} handleClose={handleClose} handleSubmit={handleSubmit}/>
+        )}
+    </Container>
   )
 }
 
