@@ -1,11 +1,26 @@
+import React, { useState } from 'react'
 import './App.css';
-import Dashboard from './Components/Dashboard';
+import NavBar from './Components/NavBar';
+import Header from './Components/Header';
+import List from './Components/List';
 
 function App() {
+  const [students, setStudents] = useState([]);
+
+  const handleSubmit = (newStudent) => {
+    setStudents((students)=>[...students,newStudent])
+  }
+
+  const handleUpdate=()=>{
+    console.log("hello");
+  }
+
   return (
     <>
       <div className='container'>
-        <Dashboard />
+        <NavBar />
+        <Header handleSubmit={handleSubmit}/>
+        <List students={students} handleUpdate={handleUpdate} />
       </div>
     </>
   );
