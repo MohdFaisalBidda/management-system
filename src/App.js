@@ -8,18 +8,27 @@ function App() {
   const [students, setStudents] = useState([]);
 
   const handleSubmit = (newStudent) => {
-    setStudents((students)=>[...students,newStudent])
+    setStudents((students) => [...students, newStudent])
   }
 
-  const handleUpdate=()=>{
-    console.log("hello");
+  const handleUpdate = (roll_no, checkout) => {
+    setStudents((students)=>
+      students.map((student)=>{
+        if(student.roll_no === roll_no){
+          return {
+            ...student,
+            checkout:checkout
+          };
+        }else return student;
+      })
+    )
   }
 
   return (
     <>
       <div className='container'>
         <NavBar />
-        <Header handleSubmit={handleSubmit}/>
+        <Header handleSubmit={handleSubmit} />
         <List students={students} handleUpdate={handleUpdate} />
       </div>
     </>

@@ -8,13 +8,14 @@ const AddModal = ({ handleClose, handleOpen, handleSubmit }) => {
     const [student, setStudent] = useState({})
 
     const addStudent = () => {
-        if(!student?.roll_no || !student?.Fullname || !student?.checkin){
+        if (!student?.roll_no || !student?.Fullname || !student.checkin) {
             alert("Fill All entries")
         }
-        handleSubmit(student);
-        setStudent({});
-        handleClose()
-
+        else {
+            handleSubmit(student);
+            setStudent({});
+            handleClose()
+        }
 
     }
     return (
@@ -36,8 +37,8 @@ const AddModal = ({ handleClose, handleOpen, handleSubmit }) => {
                                 aria-label="Roll No"
                                 aria-describedby="basic-addon1"
                                 value={student?.roll_no}
-                                onChange={(e)=>setStudent((student) =>({
-                                    ...student,roll_no:e.target.value
+                                onChange={(e) => setStudent((student) => ({
+                                    ...student, roll_no: e.target.value
                                 }))}
                             />
                         </InputGroup>
@@ -48,8 +49,8 @@ const AddModal = ({ handleClose, handleOpen, handleSubmit }) => {
                                 aria-label="Fullname"
                                 aria-describedby="basic-addon1"
                                 value={student?.Fullname}
-                                onChange={(e)=>setStudent((student) =>({
-                                    ...student,Fullname:e.target.value
+                                onChange={(e) => setStudent((student) => ({
+                                    ...student, Fullname: e.target.value
                                 }))}
                             />
                         </InputGroup>
@@ -61,8 +62,8 @@ const AddModal = ({ handleClose, handleOpen, handleSubmit }) => {
                                 aria-describedby="basic-addon1"
                                 type='time'
                                 value={student?.checkin}
-                                onChange={(e)=>setStudent((student)=>({
-                                    ...student,checkin:e.target.value
+                                onChange={(e) => setStudent((student) => ({
+                                    ...student, checkin: e.target.value
                                 }))}
                             />
                         </InputGroup>
@@ -74,8 +75,8 @@ const AddModal = ({ handleClose, handleOpen, handleSubmit }) => {
                                 aria-describedby="basic-addon1"
                                 type='time'
                                 value={student?.checkout}
-                                onChange={(e)=>setStudent((student)=>({
-                                    ...student,checkout:e.target.value
+                                onChange={(e) => setStudent((student) => ({
+                                    ...student, checkout: e.target.value
                                 }))}
                             />
                         </InputGroup>

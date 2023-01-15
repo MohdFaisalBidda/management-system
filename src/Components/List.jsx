@@ -3,6 +3,8 @@ import Table from 'react-bootstrap/Table';
 import StudItem from './StudItem';
 
 const List = ({ students,handleUpdate }) => {
+
+
     return (
 
         <div style={{ marginTop: "100px" }}>
@@ -19,20 +21,20 @@ const List = ({ students,handleUpdate }) => {
                     {students.length === 0 ? (
 
                         <tr >
-                            <td colSpan={4} style={{textAlign:"center"}}>No Students</td>
+                            <td colSpan={4} style={{ textAlign: "center" }}>No Students</td>
                         </tr>
                     ) :
                         (
                             students.map((student, index) => {
                                 return (
-                                        <StudItem
-                                            key={index}
-                                            roll_no={student.roll_no}
-                                            name={student.Fullname}
-                                            checkin={student.checkin}
-                                            checkout={student.checkout}
-                                            handleUpdate={handleUpdate}
-                                        />
+                                    <StudItem
+                                        key={index}
+                                        roll_no={student.roll_no}
+                                        name={student.Fullname}
+                                        checkin={student.checkin}
+                                        checkout={student.checkout}
+                                        handleUpdate={handleUpdate}
+                                    />
                                 )
                             })
 
