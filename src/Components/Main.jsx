@@ -1,4 +1,4 @@
-import { DatePicker, Input, Modal, Select, Space, Table, Tag } from 'antd'
+import { Input, Modal, Select, Table } from 'antd'
 import React, { useState } from 'react'
 import { EditOutlined, DeleteOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import { Button } from 'antd/es/radio';
@@ -7,7 +7,7 @@ import { Option } from 'antd/es/mentions';
 
 
 const Main = () => {
-    const [todo, setTodo] = useState({ time: "", title: "", desc: "", due: "", tag: [], status: "" })
+    const [todo, setTodo] = useState({ time: "", title: "", desc: "", due: "", tag: [], status: "OPEN" })
     const [dataSource, setDataSource] = useState([]);
     const [isEditing, setIsEditing] = useState(false);
     const [editTodo, setEditTodo] = useState(null);
@@ -15,9 +15,6 @@ const Main = () => {
     const [searchText, setSearchText] = useState("")
     const [page, setPage] = useState(1);
     const [pageSize, setPageSize] = useState(3);
-
-
-
 
     const columns = [
         {
@@ -145,7 +142,8 @@ const Main = () => {
             <div style={{}}>
 
 
-                <Modal title="Add TODO" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+                <Modal title="Add TODO" okText={"ADD"}
+                    open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
                     <Input value={todo.time} name="time" type="time" required={true} disabled={true} hidden={true} onChange={(e) => setTodo({ ...todo, [e.target.name]: e.target.value })} style={{ padding: "10px", width: "100%", marginBottom: "8px" }} />
                     <Input placeholder='Title' value={todo.title} required={true} name="title" max={100} onChange={(e) => setTodo({ ...todo, [e.target.name]: e.target.value })} style={{ padding: "10px", width: "100%", marginBottom: "8px" }} />
                     <br />
@@ -154,17 +152,13 @@ const Main = () => {
                     <input placeholder='due' value={todo.due} required={true} type="time" name="due" onChange={(e) => setTodo({ ...todo, [e.target.name]: e.target.value })} style={{ padding: "10px", width: "100%", marginBottom: "8px" }} />
                     <br />
 
-                    {/* <input placeholder='tag' value={todo.tag} name="tag" onChange={(e) => setTodo({ ...todo, [e.target.name]: e.target.value })} style={{ padding: "10px", width: "100%", marginBottom: "8px" }} />
-                    <br /> */}
-
                     <Select
-                        mode="multiple"
+                        mode="tags"
                         style={{
-                            width: '100%',
+                            padding: "10px", width: "100%", marginBottom: "8px"
                         }}
-                        placeholder="select one country"
+                        placeholder="select tags"
                         defaultValue={todo.tag}
-                        // value={todo.tag}
                         onChange={(e) => setTodo({ ...todo, tag: e })}
                         optionLabelProp="label"
                     >
@@ -179,17 +173,20 @@ const Main = () => {
                         </Option>
                     </Select>
 
-                    {/* <Select
-                        mode="tags"
-                        style={{
-                            width: '100%',
-                        }}
-                        placeholder="Tags Mode"
-                        onChange={(i) => console.log(i)}
-                        options={[{ "IMP": "IMP" }]}
-                    /> */}
 
-                    <input placeholder='status' value={todo.status} name="status" onChange={(e) => setTodo({ ...todo, [e.target.name]: e.target.value })} style={{ padding: "10px", width: "100%", marginBottom: "8px" }} />
+                    <Select
+                        defaultValue="OPEN"
+                        style={{ padding: "10px", width: "100%", marginBottom: "8px" }}
+                        onChange={(e) => setTodo({ ...todo, status: e })}
+                        key={todo.status}
+                        options={[
+                            { value: 'OPEN', label: 'OPEN' },
+                            { value: 'WORKING', label: 'WORKING' },
+                            { value: 'DONE', label: 'DONE' },
+                            { value: 'OVERDUE', label: 'OVERDUE' },
+                            { value: 'disabled', label: 'Disabled', disabled: true },
+                        ]}
+                    />
                 </Modal>
 
 
@@ -207,6 +204,7 @@ const Main = () => {
                     onCancel={() => {
                         resetEditing()
                     }}
+                    okText={"EDIT"}
                     onOk={() => {
                         setDataSource(prev => {
                             return prev.map(t => {
@@ -222,17 +220,16 @@ const Main = () => {
                     }}
                 >
 
-                    <Input value={editTodo?.title} onChange={(e) => setEditTodo(prev => { return { ...prev, title: e.target.value } })} />
-                    <Input value={editTodo?.desc} onChange={(e) => setEditTodo(prev => { return { ...prev, desc: e.target.value } })} />
-                    <Input value={editTodo?.due} type="time" onChange={(e) => setEditTodo(prev => { return { ...prev, due: e.target.value } })} />
+                    <Input placeholder='Title' value={editTodo?.title} onChange={(e) => setEditTodo(prev => { return { ...prev, title: e.target.value } })} style={{ padding: "10px", width: "100%", marginBottom: "8px" }} />
+                    <Input placeholder='Description' value={editTodo?.desc} onChange={(e) => setEditTodo(prev => { return { ...prev, desc: e.target.value } })} style={{ padding: "10px", width: "100%", marginBottom: "8px" }} />
+                    <Input placeholder='Due Time' value={editTodo?.due} type="time" onChange={(e) => setEditTodo(prev => { return { ...prev, due: e.target.value } })} style={{ padding: "10px", width: "100%", marginBottom: "8px" }} />
                     <Select
                         mode="multiple"
                         style={{
-                            width: '100%',
+                            padding: "10px", width: "100%", marginBottom: "8px"
                         }}
-                        placeholder="select one country"
+                        placeholder="select tags"
                         defaultValue={todo.tag}
-                        // value={todo.tag}
                         onChange={(e) => setEditTodo(prev => { return { ...prev, tag: e } })}
                         optionLabelProp="label"
                     >
@@ -246,7 +243,19 @@ const Main = () => {
                             HOME
                         </Option>
                     </Select>
-                    <Input value={editTodo?.status} onChange={(e) => setEditTodo(prev => { return { ...prev, status: e.target.value } })} />
+                    <Select
+                        defaultValue="OPEN"
+                        style={{ width: 120 }}
+                        onChange={(e) => setEditTodo(prev => { return { ...prev, status: e } })}
+                        key={todo.status}
+                        options={[
+                            { value: 'OPEN', label: 'OPEN' },
+                            { value: 'WORKING', label: 'WORKING' },
+                            { value: 'DONE', label: 'DONE' },
+                            { value: 'OVERDUE', label: 'OVERDUE' },
+                            { value: 'disabled', label: 'Disabled', disabled: true },
+                        ]}
+                    />
                 </Modal>
 
 
