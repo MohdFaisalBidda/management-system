@@ -1,31 +1,24 @@
-import React from 'react'
-import Container from 'react-bootstrap/Container';
-import { Navbar as NV } from 'react-bootstrap';
-import Dropdown from 'react-bootstrap/Dropdown';
+import React from 'react';
+import { Layout} from 'antd';
+import Main from './Main';
 
-const NavBar = () => {
+const { Header, Content, Footer } = Layout;
+
+const Navbar = () => {
+
+
+
     return (
-        <NV bg="light" >
-            <Container>
-                <NV.Brand >Student Management System</NV.Brand>
-                <NV.Toggle />
-                <NV.Collapse className="justify-content-end">
-                    <NV.Text>
-                        <Dropdown>
-                            <Dropdown.Toggle variant="success" id="dropdown-basic">
-                                Class
-                            </Dropdown.Toggle>
+        <Layout className="layout" style={{height: "100vh" }}>
+            <Header style={{ textAlign: "center", width: "100%" }}>
+                <h1 style={{ color: "wheat" }}>TODO App</h1>
+            </Header>
+            <Content style={{ display: "flex", justifyContent: "center", alignItems: "center", width: "100%" }}>
+             <Main/>
+            </Content>
+            <Footer style={{ textAlign: 'center' }}>Ant Design ©2023 Created Faisal</Footer>
+        </Layout>
+    );
+};
 
-                            <Dropdown.Menu>
-                                <Dropdown.Item href="/class11">11</Dropdown.Item>
-                                <Dropdown.Item href="/class12">12</Dropdown.Item>
-                            </Dropdown.Menu>
-                        </Dropdown>
-                    </NV.Text>
-                </NV.Collapse>
-            </Container>
-        </NV >
-    )
-}
-
-export default NavBar
+export default Navbar;
